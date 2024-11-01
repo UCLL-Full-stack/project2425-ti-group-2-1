@@ -11,8 +11,7 @@ export class Order {
     customer: Customer;
     products: Product[];
   
-    constructor(order_id: number, totalprice: number, date: Date, send: boolean, address: Address, customer: Customer, products: Product[]) {
-        this.order_id = order_id;
+    constructor(totalprice: number, date: Date, send: boolean, address: Address, customer: Customer, products: Product[]) {
         this.totalprice = totalprice;
         this.date = date;
         this.send = send;

@@ -8,8 +8,7 @@ export class Customer {
     number: string;
     address: Address;
   
-    constructor(customer_id: number, name: string, password: string, email: string, number: string, address_id: Address) {
-        this.customer_id = customer_id;
+    constructor(name: string, password: string, email: string, number: string, address_id: Address) {
         this.name = name;
         this.password = password;
         this.email = email;
