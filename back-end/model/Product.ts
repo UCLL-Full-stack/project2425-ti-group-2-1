@@ -1,5 +1,5 @@
 export class Product {
-    product_id: number;
+    product_id?: number;
     name: string;
     description: string;
     price: number;
@@ -13,7 +13,7 @@ export class Product {
         this.category = category;
     }
 
-    getproductid(): number {
+    getproductid(): number | undefined {
         return this.product_id;
     }
     

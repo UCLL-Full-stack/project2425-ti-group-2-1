@@ -1,21 +1,23 @@
+import { Address } from "./Address";
+
 export class Customer {
-    customer_id: number;
+    customer_id?: number;
     name: string;
     password: string;
     email: string;
     number: string;
-    //address_id: Address;
+    address: Address;
   
-    constructor(customer_id: number, name: string, password: string, email: string, number: string, /*address_id: Address*/) {
+    constructor(customer_id: number, name: string, password: string, email: string, number: string, address_id: Address) {
         this.customer_id = customer_id;
         this.name = name;
         this.password = password;
         this.email = email;
         this.number = number;
-        //this.address_id = address_id;
+        this.address = address_id;
     }
 
-    getCustomerID(): number {
+    getCustomerID(): number | undefined {
         return this.customer_id;
     }
 
@@ -51,12 +53,12 @@ export class Customer {
         this.number = value;
     }
 
-    /*getAddressID(): number {
-        return this.address_id;
+    getAddressID(): Address {
+        return this.address;
     }
 
     setAddressID(value : number) : void {
-        this.address_id = address_id;
-    }*/
+        this.address = this.address;
+    }
 }
   

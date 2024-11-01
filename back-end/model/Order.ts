@@ -1,21 +1,27 @@
+import { Address } from "./Address";
+import { Customer } from "./Customer";
+import { Product } from "./Product";
+
 export class Order {
-    order_id: number;
+    order_id?: number;
     totalprice: number;
     date: Date;
     send: boolean;
-    /*address_id: Address;
-    customer_id: Customer;*/
+    address: Address;
+    customer: Customer;
+    products: Product[];
   
-    constructor(order_id: number, totalprice: number, date: Date, send: boolean, /*address_id: Address, customer_id: Customer*/) {
+    constructor(order_id: number, totalprice: number, date: Date, send: boolean, address: Address, customer: Customer, products: Product[]) {
         this.order_id = order_id;
         this.totalprice = totalprice;
         this.date = date;
         this.send = send;
-        /*this.address_id = address_id;
-        this.customer_id = customer_id;*/
+        this.address = address;
+        this.customer = customer;
+        this.products = products;
     }
 
-    getOrderID(): number {
+    getOrderID(): number | undefined {
         return this.order_id;
     }
 
@@ -47,12 +53,16 @@ export class Order {
         this.send = value;
     }
 
-    /*getAddressID(): number {
-        return this.address_id;
+    getAddressID(): Address {
+        return this.address;
     }
 
-    getCustomerID(): number {
-        return this.customer_id;
-    }*/
+    getCustomerID(): Customer {
+        return this.customer;
+    }
+
+    getProducts() : Product[] {
+        return this.products;
+    }
 }
   

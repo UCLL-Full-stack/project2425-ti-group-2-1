@@ -1,5 +1,5 @@
 export class Address {
-    address_id: number;
+    address_id?: number;
     housecode: string;
     street: string;
     postalcode: string;
@@ -11,7 +11,7 @@ export class Address {
         this.postalcode = postalcode;
     }
 
-    getAddressID(): number {
+    getAddressID(): number | undefined{
         return this.address_id;
     }
 
