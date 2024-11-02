@@ -40,7 +40,7 @@ export class Address {
         this.postalcode = value;
     }
 
-    validate(address: {housecode: string, street: string, postalcode: string, address_id?: number}) {
+    validate(address: {housecode: string, street: string, postalcode: string}) {
         if (!address.housecode) {
             throw new Error("House code is required");
         }
