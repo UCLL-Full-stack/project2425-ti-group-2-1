@@ -78,7 +78,6 @@ describe('Address Class', () => {
         expect(address.getHouseCode()).toBe("9876def");
     });
 
-
     test('Given: valid Address, when: setting empty housecode, then: throw "House code is required"', () => {
         const address = new Address({ housecode: "1234abc", street: "pinkystreet", postalcode: "2525" });
         expect(() => address.setHouseCode("")).toThrow("House code is required");
