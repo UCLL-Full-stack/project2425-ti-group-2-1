@@ -8,9 +8,10 @@ export class Customer {
     number: string;
     address: Address;
   
-    constructor(customer : {name: string, password: string, email: string, number: string, address: Address}) {
+    constructor(customer : {customer_id? : number, name: string, password: string, email: string, number: string, address: Address}) {
         this.validate(customer);
 
+        this.customer_id = customer.customer_id;
         this.name = customer.name;
         this.password = customer.password;
         this.email = customer.email;
@@ -58,8 +59,8 @@ export class Customer {
         return this.address;
     }
 
-    setAddress(value : number) : void {
-        this.address = this.address;
+    setAddress(value : Address) : void {
+        this.address = value;
     }
 
     validate(customer: {name : string, password : string, email : string, number : string, address : Address}){
