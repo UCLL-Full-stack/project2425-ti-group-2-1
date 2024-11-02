@@ -19,13 +19,35 @@ const customers : Customer[] = [
 ];
 
 const createCustomer = (customer: Customer): Customer => {
+    if (customers.includes(customer)) {
+        throw new Error('customer already exists');
+    }
     customers.push(customer);
     return customer;
 };
 
-export const findCustomerByEmail = (email: string): Customer | null => {
-    return customers.find((customer) => customer.email === email) || null;
+const getCustomerById = ({ id }: { id: number }): Customer | null => {
+    try {
+        return customers.find((customer) => customer.getCustomerID() === id) || null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+}
+
+const getCustomerByEmail = (email: string): Customer | undefined => {
+    return customers.find(customer => customer.email === email);
 };
 
+const getCustomerByPhone = (number: string): Customer | undefined => {
+    return customers.find(customer => customer.number === number);
+};
+
+export default {
+    createCustomer,
+    getCustomerById,
+    getCustomerByEmail,
+    getCustomerByPhone,
+};
 
 

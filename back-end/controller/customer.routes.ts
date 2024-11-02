@@ -46,8 +46,10 @@
  */
 
 import express, { NextFunction, Request, Response } from 'express';
-import { login } from '../service/customer.service'
+import { login } from '../service/Customer.service'
 import { AuthenticationRequest, AuthenticationResponse } from '../types/index';
+import CustomerService from "../service/Customer.service";
+import { CustomerInput } from '../types';
 
 const customerRouter = express.Router();
 
@@ -85,6 +87,52 @@ customerRouter.post('/login', async (req: Request, res: Response, next: NextFunc
         }
 
         return res.status(500).json({ message: "An error occurred during authentication" });
+    }
+});
+
+    /**
+        @swagger
+    /register:
+        post:
+        summary: Register a new customer
+        requestBody:
+            required: true
+            content:
+            application/json:
+                schema:
+                $ref: '#/components/schemas/CustomerInput'
+        responses:
+            200:
+            description: Customer created
+            400:
+            description: Bad Request
+            500:
+            description: Server Error
+
+    components:
+    schemas:
+        CustomerInput:
+        type: object
+        properties:
+            name: { type: string }
+            password: { type: string }
+            email: { type: string, format: email }
+            number: { type: string }
+            address:
+            type: object
+            properties:
+                housecode: { type: string }
+                street: { type: string }
+                postalcode: { type: string }
+    **/
+
+customerRouter.post('/register', async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const customer = <CustomerInput>req.body;
+        const result = await CustomerService.createCustomer(customer);
+        res.status(200).json(result);
+    } catch (error) {
+        next(error);
     }
 });
 
