@@ -28,6 +28,9 @@ export class Customer {
     }
 
     setName(value: string): void {
+        if (!value){
+            throw new Error("Name is required");
+        }
         this.name = value;
     }
 
@@ -36,6 +39,9 @@ export class Customer {
     }
 
     setPassword(value: string): void {
+        if (!value){
+            throw new Error("Password is required");
+        }
         this.password = value;
     }
 
@@ -44,6 +50,9 @@ export class Customer {
     }
 
     setEmail(value: string): void {
+        if(!value){
+            throw new Error("Email is required");            
+        }
         this.email = value;
     }
 
@@ -52,6 +61,9 @@ export class Customer {
     }
 
     setNumber(value: string): void {
+        if(!value){
+            throw new Error("Number is required");            
+        }
         this.number = value;
     }
 
@@ -60,6 +72,9 @@ export class Customer {
     }
 
     setAddress(value : Address) : void {
+        if(!value){
+            throw new Error("Address is required"); 
+        }
         this.address = value;
     }
 
@@ -81,8 +96,7 @@ export class Customer {
         }
 
         if(!customer.address){
-            throw new Error("Address is required");
-            
+            throw new Error("Address is required"); 
         }
     }
 }
