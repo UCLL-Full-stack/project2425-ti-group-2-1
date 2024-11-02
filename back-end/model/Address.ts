@@ -21,6 +21,9 @@ export class Address {
     }
 
     setHouseCode(value: string): void {
+        if (!value) {
+            throw new Error("House code is required");
+        }
         this.housecode = value;
     }
 
@@ -29,6 +32,9 @@ export class Address {
     }
 
     setStreet(value: string): void {
+        if (!value) {
+            throw new Error("Street is required");
+        }
         this.street = value;
     }
 
@@ -37,6 +43,9 @@ export class Address {
     }
 
     setPostalCode(value: string): void {
+        if (!value) {
+            throw new Error("Postal code is required");
+        }
         this.postalcode = value;
     }
 

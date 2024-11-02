@@ -14,7 +14,19 @@ type AddressInput = {
     postalcode: string;
 };
 
+type AuthenticationRequest = {
+    email : string,
+    password : string
+};
+
+type AuthenticationResponse = {
+    id : number,
+    email : string
+};
+
 export{
     CustomerInput,
     AddressInput,
+    AuthenticationRequest,
+    AuthenticationResponse,
 }
