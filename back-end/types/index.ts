@@ -13,3 +13,8 @@ type AddressInput = {
     street: string;
     postalcode: string;
 };
+
+export{
+    CustomerInput,
+    AddressInput,
+}
