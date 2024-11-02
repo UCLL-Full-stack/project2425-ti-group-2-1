@@ -1,0 +1,29 @@
+/* styles/register.module.css */
+
+.registerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto; 
+    border: 2px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+  }
+  
+  .inputGroup {
+    margin-bottom: 20px;
+  }
+  
+  .addressFieldset {
+    border: 2px solid #ccc;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  .label {
+    display: block;
+    margin-bottom: 5px;
+  }
