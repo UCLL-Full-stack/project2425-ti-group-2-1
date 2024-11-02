@@ -4,11 +4,12 @@ export class Address {
     street: string;
     postalcode: string;
 
-    constructor(address_id: number, housecode: string, street: string, postalcode: string) {
-        this.address_id = address_id;
-        this.housecode = housecode;
-        this.street = street;
-        this.postalcode = postalcode;
+    constructor(address: {housecode: string, street: string, postalcode: string}) {
+        this.validate(address);
+
+        this.housecode = address.housecode;
+        this.street = address.street;
+        this.postalcode = address.postalcode;
     }
 
     getAddressID(): number | undefined{
@@ -37,5 +38,19 @@ export class Address {
 
     setPostalCode(value: string): void {
         this.postalcode = value;
+    }
+
+    validate(address: {housecode: string, street: string, postalcode: string, address_id?: number}) {
+        if (!address.housecode) {
+            throw new Error("House code is required");
+        }
+
+        if (!address.street) {
+            throw new Error("Street is required");
+        }
+
+        if (!address.postalcode) {
+            throw new Error("Postal code is required");
+        }
     }
 }

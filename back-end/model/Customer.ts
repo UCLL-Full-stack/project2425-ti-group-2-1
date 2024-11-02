@@ -8,12 +8,14 @@ export class Customer {
     number: string;
     address: Address;
   
-    constructor(name: string, password: string, email: string, number: string, address_id: Address) {
-        this.name = name;
-        this.password = password;
-        this.email = email;
-        this.number = number;
-        this.address = address_id;
+    constructor(customer : {name: string, password: string, email: string, number: string, address: Address}) {
+        this.validate(customer);
+
+        this.name = customer.name;
+        this.password = customer.password;
+        this.email = customer.email;
+        this.number = customer.number;
+        this.address = customer.address;
     }
 
     getCustomerID(): number | undefined {
@@ -52,12 +54,35 @@ export class Customer {
         this.number = value;
     }
 
-    getAddressID(): Address {
+    getAddress(): Address {
         return this.address;
     }
 
-    setAddressID(value : number) : void {
+    setAddress(value : number) : void {
         this.address = this.address;
+    }
+
+    validate(customer: {name : string, password : string, email : string, number : string, address : Address}){
+        if (!customer.name){
+            throw new Error("Name is required");
+        }
+
+        if(!customer.password){
+            throw new Error("Password is required");            
+        }
+
+        if(!customer.email){
+            throw new Error("Email is required");            
+        }
+
+        if(!customer.number){
+            throw new Error("Number is required");            
+        }
+
+        if(!customer.address){
+            throw new Error("Address is required");
+            
+        }
     }
 }
   
