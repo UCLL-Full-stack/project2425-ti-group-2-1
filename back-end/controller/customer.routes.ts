@@ -43,6 +43,33 @@
  *           type: number
  *         email:
  *           type: string
+ *     CustomerInput:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         password:
+ *           type: string
+ *         email:
+ *           type: string
+ *           format: email
+ *         number:
+ *           type: string
+ *         address:
+ *           type: object
+ *           properties:
+ *             housecode:
+ *               type: string
+ *             street:
+ *               type: string
+ *             postalcode:
+ *               type: string
+ *       required:
+ *         - name
+ *         - password
+ *         - email
+ *         - number
+ *         - address
  */
 
 import express, { NextFunction, Request, Response } from 'express';
@@ -90,40 +117,24 @@ customerRouter.post('/login', async (req: Request, res: Response, next: NextFunc
 });
 
     /**
-        @swagger
-    /register:
-        post:
-        summary: Register a new customer
-        requestBody:
-            required: true
-            content:
-            application/json:
-                schema:
-                $ref: '#/components/schemas/CustomerInput'
-        responses:
-            200:
-            description: Customer created
-            400:
-            description: Bad Request
-            500:
-            description: Server Error
-
-    components:
-    schemas:
-        CustomerInput:
-        type: object
-        properties:
-            name: { type: string }
-            password: { type: string }
-            email: { type: string, format: email }
-            number: { type: string }
-            address:
-            type: object
-            properties:
-                housecode: { type: string }
-                street: { type: string }
-                postalcode: { type: string }
-    **/
+ * @swagger
+ * /register:
+ *   post:
+ *     summary: Register a new customer.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/CustomerInput'
+ *     responses:
+ *       200:
+ *         description: Customer created.
+ *       400:
+ *         description: Bad Request.
+ *       500:
+ *         description: Server Error.
+ */
 
 customerRouter.post('/register', async (req: Request, res: Response, next: NextFunction) => {
     try{

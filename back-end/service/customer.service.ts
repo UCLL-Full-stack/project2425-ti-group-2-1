@@ -1,6 +1,6 @@
 import { AuthenticationRequest, AuthenticationResponse, CustomerInput } from '../types/index';
 import { Customer } from "../model/Customer"
-import addressDB from '../repository/customer.db';
+import addressDB from '../repository/address.db';
 import customerDb from "../repository/customer.db";
 
 export const login = (authRequest: AuthenticationRequest): AuthenticationResponse => {
@@ -29,7 +29,6 @@ const createCustomer = ({
     number,
     address: addressInput,
 }: CustomerInput): Customer => {
-    if(!addressInput.address_id) throw new Error("address needs to have an id.");
     if(!name || !password || !email || !number) {
         throw new Error("All fields are required.");
     };
@@ -50,4 +49,4 @@ const createCustomer = ({
     return customerDb.createCustomer(customer);
 };
 
-export default { createCustomer };
+export default { createCustomer, login };
