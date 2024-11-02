@@ -1,7 +1,26 @@
+import { AuthenticationRequest, AuthenticationResponse, CustomerInput } from '../types/index';
 import { Customer } from "../model/Customer"
-import addressDB from '../repository/Address.db';
-import customerDb from "../repository/Customer.db";
-import { CustomerInput } from "../types";
+import addressDB from '../repository/customer.db';
+import customerDb from "../repository/customer.db";
+
+export const login = (authRequest: AuthenticationRequest): AuthenticationResponse => {
+    const { email, password } = authRequest;
+
+    const customer = customerDb.getCustomerByEmail(email);
+
+    if (!customer) {
+        throw new Error("Email or password incorrect");
+    }
+
+    if (customer.password !== password) {
+        throw new Error("Email or password incorrect");
+    }
+
+    return {
+        id: customer.customer_id as number,
+        email: customer.email,
+    };
+};
 
 const createCustomer = ({
     name,

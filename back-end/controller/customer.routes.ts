@@ -46,9 +46,8 @@
  */
 
 import express, { NextFunction, Request, Response } from 'express';
-import { login } from '../service/Customer.service'
 import { AuthenticationRequest, AuthenticationResponse } from '../types/index';
-import CustomerService from "../service/Customer.service";
+import CustomerService from "../service/customer.service";
 import { CustomerInput } from '../types';
 
 const customerRouter = express.Router();
@@ -78,7 +77,7 @@ customerRouter.post('/login', async (req: Request, res: Response, next: NextFunc
     try {
         const authRequest: AuthenticationRequest = req.body;
 
-        const authResponse: AuthenticationResponse = login(authRequest);
+        const authResponse: AuthenticationResponse = CustomerService.login(authRequest);
 
         return res.status(200).json(authResponse);
     } catch (error) {

@@ -1,5 +1,5 @@
 import { Address } from "../model/Address";
-import { Customer } from "../model/Customer"
+import { Customer } from "../model/Customer";
 
 const addressYannick = new Address({
     housecode : `25D`,
@@ -9,6 +9,7 @@ const addressYannick = new Address({
 
 const customers : Customer[] = [
     new Customer({
+        customer_id: 1,
         name : `Yannick`,
         password : `password`,
         email : `yannick@gmail.com`,
@@ -34,7 +35,19 @@ const getCustomerById = ({ id }: { id: number }): Customer | null => {
     }
 }
 
+const getCustomerByEmail = (email: string): Customer | undefined => {
+    return customers.find(customer => customer.email === email);
+};
+
+const getCustomerByPhone = (number: string): Customer | undefined => {
+    return customers.find(customer => customer.number === number);
+};
+
 export default {
     createCustomer,
     getCustomerById,
+    getCustomerByEmail,
+    getCustomerByPhone,
 };
+
+

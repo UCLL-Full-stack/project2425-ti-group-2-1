@@ -1,8 +1,7 @@
-import { AuthenticationRequest, AuthenticationResponse } from '../types/index';
+import { AuthenticationRequest, AuthenticationResponse, CustomerInput } from '../types/index';
 import { Customer } from "../model/Customer"
-import addressDB from '../repository/Address.db';
-import customerDb from "../repository/Customer.db";
-import { CustomerInput } from "../types";
+import addressDB from '../repository/customer.db';
+import customerDb from "../repository/customer.db";
 
 export const login = (authRequest: AuthenticationRequest): AuthenticationResponse => {
     const { email, password } = authRequest;
