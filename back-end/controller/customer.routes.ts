@@ -138,9 +138,9 @@ customerRouter.post('/login', async (req: Request, res: Response, next: NextFunc
 
 customerRouter.post('/register', async (req: Request, res: Response, next: NextFunction) => {
     try{
-        const customer = <CustomerInput>req.body;
+        const customer: CustomerInput = req.body;
         const result = await CustomerService.createCustomer(customer);
-        res.status(200).json(result);
+        return res.status(200).json(result);
     } catch (error) {
         next(error);
     }

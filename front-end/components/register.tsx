@@ -1,13 +1,23 @@
 // components/Register.tsx
 import { useState } from 'react';
 import styles from '../styles/Register.module.css';
+import registerService from '../services/RegisterService';
 
 interface RegisterProps {
     toggleView: () => void;
 }
 
 const Register: React.FC<RegisterProps> = ({ toggleView }) => {
-    const [formData, setFormData] = useState({
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [name, setName] = useState<string>('');
+    const [number, setNumber] = useState<string>('');
+    const [housecode, setHousecode] = useState<string>('');
+    const [street, setStreet] = useState<string>('');
+    const [postalcode, setPostalcode] = useState<string>('');
+    const [error, setError] = useState<string | null>(null);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+    /*const [formData, setFormData] = useState({
         name: '',
         password: '',
         email: '',
@@ -17,19 +27,31 @@ const Register: React.FC<RegisterProps> = ({ toggleView }) => {
             street: '',
             postalcode: ''
         }
-    });
+    });*/
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    /*const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
             [name]: value
         }));
-    };
+    };*/
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle registration logic here
+        setError(null);
+        setSuccessMessage(null);
+
+        const address = {housecode, street, postalcode};
+
+        const credentials = { name, email, number, password, address};
+
+        try {
+            const response = await registerService.handleRegister(credentials);
+            setSuccessMessage('register successful! Welcome.');
+        } catch (error) {
+            setError('regiester failed, account already exists.');
+        }
     };
 
     return (
@@ -42,8 +64,8 @@ const Register: React.FC<RegisterProps> = ({ toggleView }) => {
                         type="text"
                         id="name"
                         name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                         required
                     />
                 </div>
@@ -54,8 +76,8 @@ const Register: React.FC<RegisterProps> = ({ toggleView }) => {
                         type="email"
                         id="email"
                         name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
                     />
                 </div>
@@ -66,8 +88,8 @@ const Register: React.FC<RegisterProps> = ({ toggleView }) => {
                         type="text"
                         id="number"
                         name="number"
-                        value={formData.number}
-                        onChange={handleInputChange}
+                        value={number}
+                        onChange={(e) => setNumber(e.target.value)}
                         required
                     />
                 </div>
@@ -78,8 +100,8 @@ const Register: React.FC<RegisterProps> = ({ toggleView }) => {
                         type="password"
                         id="password"
                         name="password"
-                        value={formData.password}
-                        onChange={handleInputChange}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         required
                     />
                 </div>
@@ -92,8 +114,8 @@ const Register: React.FC<RegisterProps> = ({ toggleView }) => {
                             type="text"
                             id="housecode"
                             name="housecode"
-                            value={formData.address.housecode}
-                            onChange={handleInputChange}
+                            value={housecode}
+                            onChange={(e) => setHousecode(e.target.value)}
                             required
                         />
                     </div>
@@ -103,8 +125,8 @@ const Register: React.FC<RegisterProps> = ({ toggleView }) => {
                             type="text"
                             id="street"
                             name="street"
-                            value={formData.address.street}
-                            onChange={handleInputChange}
+                            value={street}
+                            onChange={(e) => setStreet(e.target.value)}
                             required
                         />
                     </div>
@@ -114,12 +136,15 @@ const Register: React.FC<RegisterProps> = ({ toggleView }) => {
                             type="text"
                             id="postalcode"
                             name="postalcode"
-                            value={formData.address.postalcode}
-                            onChange={handleInputChange}
+                            value={postalcode}
+                            onChange={(e) => setPostalcode(e.target.value)}
                             required
                         />
                     </div>
                 </fieldset>
+
+                {error && <p className={styles.error}>{error}</p>}
+                {successMessage && <p className={styles.success}>{successMessage}</p>}
 
                 <button type="submit">Register</button>
             </form>
