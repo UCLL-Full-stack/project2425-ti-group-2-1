@@ -1,7 +1,7 @@
 // components/Login.tsx
 import { useState } from 'react';
-import styles from '../styles/login.module.css';
-import loginService from '@services/LoginService';
+import styles from '../styles/Login.module.css';
+import loginService from '../services/LoginService';
 
 interface LoginProps {
     toggleView: () => void;

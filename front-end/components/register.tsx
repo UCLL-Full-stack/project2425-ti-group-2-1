@@ -1,6 +1,6 @@
 // components/Register.tsx
 import { useState } from 'react';
-import styles from '../styles/register.module.css';
+import styles from '../styles/Register.module.css';
 
 interface RegisterProps {
     toggleView: () => void;

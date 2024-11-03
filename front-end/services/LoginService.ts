@@ -1,3 +1,5 @@
+import { AuthenticationRequest, AuthenticationResponse } from "../types";
+
 async function handleLogin(
 	credentials: AuthenticationRequest
 ): Promise<AuthenticationResponse> {
