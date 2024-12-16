@@ -22,4 +22,11 @@
   .success {
     color: green; /* Change to your preferred success color */
     margin-top: 10px;
-}
+    margin-bottom: 10px;
+  }
+
+  .error {
+    color: red; /* Change to your preferred error color */
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }

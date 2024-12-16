@@ -1,0 +1,31 @@
+{
+  "app.title": "Onze website naam",
+  "homePage": {
+    "title": "Welkom op de Startpagina",
+    "language": "Taal"
+  },
+  "register": {
+    "title": "Registreren",
+    "name": "Naam",
+    "email": "E-mail",
+    "phoneNumber": "Telefoonnummer",
+    "password": "Wachtwoord",
+    "address": {
+      "title": "Adres",
+      "houseCode": "Huiscode",
+      "street": "Straat",
+      "postalCode": "Postcode"
+    },
+    "registerButton": "Registreren",
+    "alreadyHaveAccount": "Heb je al een account?",
+    "signIn": "Inloggen"
+  },
+  "login": {
+    "title": "Inloggen",
+    "email": "E-mail",
+    "password": "Wachtwoord",
+    "signInButton": "Inloggen",
+    "dontHaveAccount": "Heb je geen account?",
+    "signUp": "Aanmelden"
+  }
+}

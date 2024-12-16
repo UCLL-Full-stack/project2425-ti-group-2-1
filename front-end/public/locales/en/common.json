@@ -1,0 +1,32 @@
+{
+  "app.title": "Our website name",
+
+  "homePage": {
+    "title": "Welcome to the Home Page",
+    "language": "Language"
+  },
+  "register": {
+    "title": "Register",
+    "name": "Name",
+    "email": "Email",
+    "phoneNumber": "Phone Number",
+    "password": "Password",
+    "address": {
+      "title": "Address",
+      "houseCode": "Housecode",
+      "street": "Street",
+      "postalCode": "Postal Code"
+    },
+    "registerButton": "Register",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign In"
+  },
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "signInButton": "Sign in",
+    "dontHaveAccount": "Don't have an account?",
+    "signUp": "Sign Up"
+  }
+}
