@@ -12,8 +12,8 @@ model Address {
     housecode  String    
     street     String
     postalcode String
-    customers Customer[] 
-    orders    Order[]
+    customers  Customer[] 
+    orders     Order[]
 }
 
 model Customer {
@@ -36,7 +36,8 @@ model Order {
     address    Address   @relation(fields: [addressId], references: [id])
     customerId Int
     customer   Customer  @relation(fields: [customerId], references: [id])
-    products   Product[] @relation("OrderToProducts")
+    
+    orderProducts OrderProduct[]
 }
 
 model Product {
@@ -45,13 +46,18 @@ model Product {
     description String
     price       Float
     category    String
-    orders      Order[]   @relation("OrderToProducts")
+    image       String
+    stock       Int
+    
+    orderProducts OrderProduct[]
 }
 
 model OrderProduct {
-    order_id   Int
-    product_id Int
-    order      Order    @relation(fields: [order_id], references: [id])
-    product    Product  @relation(fields: [product_id], references: [id])
-    @@id([order_id, product_id])
+    orderId   Int
+    productId Int
+
+    order      Order    @relation(fields: [orderId], references: [id])
+    product    Product  @relation(fields: [productId], references: [id])
+
+    @@id([orderId, productId])
 }

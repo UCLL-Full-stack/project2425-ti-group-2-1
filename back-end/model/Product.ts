@@ -4,12 +4,32 @@ export class Product {
     description: string;
     price: number;
     category: string;
+    image: string;
+    stock: number;
   
-    constructor(name: string, description: string, price: number, category: string) {
+    constructor(name: string, description: string, price: number, category: string, image: string, stock: number) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.category = category;
+        this.image = image;
+        this.stock = stock;
+    }
+
+    getimage(): string {
+        return this.image;
+    }
+
+    setimage(value: string) {
+        this.image = value;
+    }
+
+    getstock(): number {
+        return this.stock;
+    }
+
+    setstock(value: number) {
+        this.stock = value;
     }
 
     getproductid(): number | undefined {
