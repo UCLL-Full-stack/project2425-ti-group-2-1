@@ -1,21 +1,13 @@
-import { Product } from "../model/Product";
-import { ProductRepository } from "../repository/product.db";
-import { PrismaClient } from "@prisma/client";
+import { Product } from '../model/Product';
+import productDB from '../repository/product.db';
 
-export class ProductService {
-    private productRepository: ProductRepository;
-
-    constructor(productRepository: ProductRepository) {
-        this.productRepository = productRepository;
+const getAllProducts = async (): Promise<Product[]> => {
+    try {
+        return await productDB.getAllProducts();
+    } catch (error) {
+        console.error("Error fetching products:", error);
+        throw new Error("Failed to retrieve products.");
     }
+};
 
-    async getAllProducts(): Promise<Product[]> {
-        try {
-            const products = await this.productRepository.getAllProducts();
-            return products;
-        } catch (error) {
-            console.error("Error in ProductService - getAllProducts:", error);
-            throw new Error("Failed to retrieve products.");
-        }
-    }
-}
+export default { getAllProducts };

@@ -1,19 +1,30 @@
+import { Product as ProductPrisma } from '@prisma/client';
+
 export class Product {
-    product_id?: number;
-    name: string;
-    description: string;
-    price: number;
-    category: string;
-    image: string;
-    stock: number;
+    private id?: number;
+    private name: string;
+    private description: string;
+    private price: number;
+    private category: string;
+    private image: string;
+    private stock: number;
   
-    constructor(name: string, description: string, price: number, category: string, image: string, stock: number) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.category = category;
-        this.image = image;
-        this.stock = stock;
+    constructor(product: {
+        id?: number;
+        name: string;
+        description: string;
+        price: number;
+        category: string;
+        image: string;
+        stock: number;
+    }) {
+        this.id = product.id;
+        this.name = product.name;
+        this.description = product.description;
+        this.price = product.price;
+        this.category = product.category;
+        this.image = product.image;
+        this.stock = product.stock;
     }
 
     getimage(): string {
@@ -33,7 +44,7 @@ export class Product {
     }
 
     getproductid(): number | undefined {
-        return this.product_id;
+        return this.id;
     }
     
     getname(): string {
@@ -70,6 +81,38 @@ export class Product {
     
     setcategory(value: string) {
         this.category = value;
+    }
+
+    equals(product: Product): boolean {
+        return (
+            this.id === product.getproductid() &&
+            this.name === product.getname() && 
+            this.description === product.getdescription() && 
+            this.price === product.getprice() && 
+            this.category === product.getcategory() &&  
+            this.image === product.getimage() &&  
+            this.stock === product.getstock()
+        );
+    }
+
+    static from({
+        id,
+        name,
+        description,
+        price,
+        stock,
+        category,
+        image,        
+    }: ProductPrisma) {
+        return new Product({
+            id,
+            name,
+            description,
+            price,
+            stock,
+            category,
+            image,
+        });
     }
 }
   

@@ -5,6 +5,7 @@ import * as bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { customerRouter } from './controller/customer.routes';
+import { productRouter } from './controller/product.routes';
 
 const app = express();
 dotenv.config();
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/customers', customerRouter);
+app.use('/product', productRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Back-end is running...' });

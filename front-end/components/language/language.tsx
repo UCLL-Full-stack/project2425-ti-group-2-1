@@ -27,7 +27,6 @@ const Language: React.FC = () => {
         <option value="en">English</option>
         <option value="nl">Nederlands</option>
       </select>
-      <p>{locale}</p>
     </div>
   );
 };

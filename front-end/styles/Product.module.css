@@ -1,0 +1,52 @@
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.gridItem {
+    border: 1px solid #ccc;
+    padding: 16px;
+    background-color: #fff;
+    border-radius: 8px;
+    text-align: center;
+    position: relative;  /* To position the description inside */
+}
+
+.productImage {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.productTitle {
+    font-size: 1.2rem;
+    margin: 10px 0;
+}
+
+.productDescription,
+.productPrice,
+.productStock {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Hide the product description by default */
+.productDescription {
+    position: absolute;  /* Position it absolutely within the grid item */
+    bottom: 20px;  /* Make it appear near the bottom */
+    left: 20px;
+    right: 20px;
+    font-size: 1rem;
+    color: #666;
+    display: none;  /* Hide it by default */
+    opacity: 0;
+    transition: opacity 0.3s ease;  /* Fade-in effect */
+}
+
+/* On hover, show the description */
+.gridItem:hover .productDescription {
+    display: block;
+    opacity: 1;
+}

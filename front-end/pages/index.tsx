@@ -6,6 +6,7 @@ import styles from "@/styles/Home.module.css";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Language from "../components/language/language";
+import Products from "@/components/products";
 
 export default function Home() {
   const [isLoginView, setIsLoginView] = useState(true);
@@ -28,13 +29,13 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <h1>{t("homePage.title")}</h1>
         <Language />
-        {isLoginView ? (
+        {/*{isLoginView ? (
           <Login toggleView={toggleView} />
         ) : (
           <Register toggleView={toggleView} />
-        )}
+        )}*/}
+        <Products/>
       </main>
     </>
   );
