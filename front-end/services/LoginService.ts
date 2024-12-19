@@ -41,7 +41,7 @@ async function handleLogin(
     console.error("Error in login service:", error);
     throw error;
   }
-}
+};
 
 const loginService = {
   handleLogin,

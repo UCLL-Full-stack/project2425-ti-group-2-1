@@ -7,11 +7,23 @@ import swaggerUi from 'swagger-ui-express';
 import { customerRouter } from './controller/customer.routes';
 import { productRouter } from './controller/product.routes';
 import { expressjwt } from 'express-jwt';
+import helmet from 'helmet';
 import { orderRouter } from './controller/order.routes';
 
 const app = express();
 dotenv.config();
 const port = process.env.APP_PORT || 3000;
+
+app.use(helmet());
+
+app.use(
+    helmet.contentSecurityPolicy({
+        directives: {
+            // Allow connections to own server and the external API
+            connectSrc: ["'self'", 'https://api.ucll.be'],
+        },
+    })
+);
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -26,7 +38,7 @@ app.listen(port || 3000, () => {
 
 const swaggerOptions = {
     swaggerDefinition: {
-        openapi: '3.0.0', // Use OpenAPI 3.0.0
+        openapi: '3.0.0',
         info: {
             title: 'Customer API',
             version: '1.0.0',

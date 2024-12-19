@@ -10,9 +10,14 @@ import Products from "@/components/products";
 
 export default function Home() {
   const [isLoginView, setIsLoginView] = useState(true);
+  const [showProducts, setShowProducts] = useState(false); // State for showing products
 
   const toggleView = () => {
     setIsLoginView((prev) => !prev);
+  };
+
+  const toggleProducts = () => {
+    setShowProducts((prev) => !prev);
   };
 
   const { t } = useTranslation();
@@ -37,13 +42,16 @@ export default function Home() {
         ) : (
           <Register toggleView={toggleView} />
         )}
-        <Products />
+        <button onClick={toggleProducts} className={styles.button}>
+          {showProducts ? t("app.hide_products") : t("app.show_products")}
+        </button>
+        {showProducts && <Products />}
       </main>
     </>
   );
 }
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async (context: { locale: any }) => {
   const { locale } = context;
 
   return {
