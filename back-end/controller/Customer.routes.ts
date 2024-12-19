@@ -1,6 +1,11 @@
 /**
  * @swagger
  * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *   schemas:
  *     Customer:
  *       type: object
@@ -10,27 +15,32 @@
  *           format: int64
  *         name:
  *           type: string
- *           description: Customer name.
+ *           description: Customer's full name.
  *         email:
  *           type: string
- *           description: Customer email.
+ *           format: email
+ *           description: Customer's email address.
  *         number:
  *           type: string
- *           description: Customer phone number.
+ *           description: Customer's phone number.
  *         address:
  *           type: object
  *           properties:
  *             housecode:
  *               type: string
+ *               description: The house number or code.
  *             street:
  *               type: string
+ *               description: The street name of the customer's address.
  *             postalcode:
  *               type: string
+ *               description: The postal code of the customer's address.
  *     AuthenticationRequest:
  *       type: object
  *       properties:
  *         email:
  *           type: string
+ *           format: email
  *         password:
  *           type: string
  *       required:
@@ -39,10 +49,16 @@
  *     AuthenticationResponse:
  *       type: object
  *       properties:
- *         id:
- *           type: number
+ *         token:
+ *           type: string
+ *           description: The JWT token for authenticated requests.
  *         email:
  *           type: string
+ *           format: email
+ *           description: The email of the authenticated customer.
+ *         name:
+ *           type: string
+ *           description: The name of the authenticated customer.
  *     CustomerInput:
  *       type: object
  *       properties:
@@ -74,7 +90,7 @@
 
 import express, { NextFunction, Request, Response } from 'express';
 import { AuthenticationRequest, AuthenticationResponse } from '../types/index';
-import CustomerService from "../service/customer.service";
+import CustomerService from '../service/customer.service';
 import { CustomerInput } from '../types';
 
 const customerRouter = express.Router();
@@ -84,6 +100,7 @@ const customerRouter = express.Router();
  * /login:
  *   post:
  *     summary: Login a customer.
+ *     description: This endpoint allows an existing customer to log in using their email and password. A JWT token will be returned upon successful login.
  *     requestBody:
  *       required: true
  *       content:
@@ -99,6 +116,8 @@ const customerRouter = express.Router();
  *               $ref: '#/components/schemas/AuthenticationResponse'
  *       401:
  *         description: Invalid email or password.
+ *       500:
+ *         description: Internal server error.
  */
 customerRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -113,15 +132,16 @@ customerRouter.post('/login', async (req: Request, res: Response, next: NextFunc
             return res.status(401).json({ message: error.message });
         }
 
-        return res.status(500).json({ message: "An error occurred during authentication" });
+        return res.status(500).json({ message: 'An error occurred during authentication' });
     }
 });
 
-    /**
+/**
  * @swagger
  * /register:
  *   post:
  *     summary: Register a new customer.
+ *     description: This endpoint allows a new customer to register by providing their details such as name, email, phone number, and address.
  *     requestBody:
  *       required: true
  *       content:
@@ -130,15 +150,15 @@ customerRouter.post('/login', async (req: Request, res: Response, next: NextFunc
  *             $ref: '#/components/schemas/CustomerInput'
  *     responses:
  *       200:
- *         description: Customer created.
+ *         description: Customer created successfully.
  *       400:
- *         description: Bad Request.
+ *         description: Bad Request (Missing or invalid data).
  *       500:
- *         description: Server Error.
+ *         description: Internal server error.
  */
 
 customerRouter.post('/register', async (req: Request, res: Response, next: NextFunction) => {
-    try{
+    try {
         const customer: CustomerInput = req.body;
         const result = await CustomerService.createCustomer(customer);
         return res.status(200).json(result);
