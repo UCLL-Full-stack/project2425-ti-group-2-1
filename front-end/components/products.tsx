@@ -31,7 +31,11 @@ const OverViewItems: React.FC = () => {
 
   return (
     <div>
-      <h1>Product Overview</h1>
+      <div className={styles.rightBlock}>
+        <h2 className={styles.ordertitle}>Shopping list</h2>
+        <hr className={styles.line} />
+        <p>Content goes here.</p>
+      </div>
       {error && <p>{error}</p>}
 
       <div className={styles.gridContainer}>
