@@ -20,8 +20,9 @@ type AuthenticationRequest = {
 };
 
 type AuthenticationResponse = {
-    id : number,
-    email : string
+    token: string;
+    email: string;
+    name: string;
 };
 
 type ProductInput = {

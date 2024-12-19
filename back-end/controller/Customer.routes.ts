@@ -104,7 +104,8 @@ customerRouter.post('/login', async (req: Request, res: Response, next: NextFunc
     try {
         const authRequest: AuthenticationRequest = req.body;
 
-        const authResponse: AuthenticationResponse = CustomerService.login(authRequest);
+        // Await the result of login since it returns a promise
+        const authResponse: AuthenticationResponse = await CustomerService.login(authRequest);
 
         return res.status(200).json(authResponse);
     } catch (error) {

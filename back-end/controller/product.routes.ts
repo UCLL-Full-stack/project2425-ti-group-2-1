@@ -44,9 +44,9 @@
  *         - category
  */
 
-import express, { Request, Response, NextFunction } from "express";
-import ProductService from "../service/product.service";
-import { ProductInput } from "../types";
+import express, { Request, Response, NextFunction } from 'express';
+import ProductService from '../service/product.service';
+import { ProductInput } from '../types';
 
 const productRouter = express.Router();
 
@@ -67,7 +67,7 @@ const productRouter = express.Router();
  *       500:
  *         description: Server Error.
  */
-productRouter.get("/", async (req: Request, res: Response, next: NextFunction) => {
+productRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const products = await ProductService.getAllProducts();
         return res.status(200).json(products);

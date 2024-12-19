@@ -1,17 +1,25 @@
-import { Address } from "./Address";
+import { Address } from './Address';
+import { Customer as CustomerPrisma, Address as AddressPrisma } from '@prisma/client';
 
 export class Customer {
-    customer_id?: number;
+    id?: number;
     name: string;
     password: string;
     email: string;
     number: string;
     address: Address;
-  
-    constructor(customer : {customer_id? : number, name: string, password: string, email: string, number: string, address: Address}) {
+
+    constructor(customer: {
+        id?: number;
+        name: string;
+        password: string;
+        email: string;
+        number: string;
+        address: Address;
+    }) {
         this.validate(customer);
 
-        this.customer_id = customer.customer_id;
+        this.id = customer.id;
         this.name = customer.name;
         this.password = customer.password;
         this.email = customer.email;
@@ -20,7 +28,7 @@ export class Customer {
     }
 
     getCustomerID(): number | undefined {
-        return this.customer_id;
+        return this.id;
     }
 
     getName(): string {
@@ -28,8 +36,8 @@ export class Customer {
     }
 
     setName(value: string): void {
-        if (!value){
-            throw new Error("Name is required");
+        if (!value) {
+            throw new Error('Name is required');
         }
         this.name = value;
     }
@@ -39,8 +47,8 @@ export class Customer {
     }
 
     setPassword(value: string): void {
-        if (!value){
-            throw new Error("Password is required");
+        if (!value) {
+            throw new Error('Password is required');
         }
         this.password = value;
     }
@@ -50,8 +58,8 @@ export class Customer {
     }
 
     setEmail(value: string): void {
-        if(!value){
-            throw new Error("Email is required");            
+        if (!value) {
+            throw new Error('Email is required');
         }
         this.email = value;
     }
@@ -61,8 +69,8 @@ export class Customer {
     }
 
     setNumber(value: string): void {
-        if(!value){
-            throw new Error("Number is required");            
+        if (!value) {
+            throw new Error('Number is required');
         }
         this.number = value;
     }
@@ -71,33 +79,56 @@ export class Customer {
         return this.address;
     }
 
-    setAddress(value : Address) : void {
-        if(!value){
-            throw new Error("Address is required"); 
+    setAddress(value: Address): void {
+        if (!value) {
+            throw new Error('Address is required');
         }
         this.address = value;
     }
 
-    validate(customer: {name : string, password : string, email : string, number : string, address : Address}){
-        if (!customer.name){
-            throw new Error("Name is required");
+    validate(customer: {
+        name: string;
+        password: string;
+        email: string;
+        number: string;
+        address: Address;
+    }) {
+        if (!customer.name) {
+            throw new Error('Name is required');
         }
 
-        if(!customer.password){
-            throw new Error("Password is required");            
+        if (!customer.password) {
+            throw new Error('Password is required');
         }
 
-        if(!customer.email){
-            throw new Error("Email is required");            
+        if (!customer.email) {
+            throw new Error('Email is required');
         }
 
-        if(!customer.number){
-            throw new Error("Number is required");            
+        if (!customer.number) {
+            throw new Error('Number is required');
         }
 
-        if(!customer.address){
-            throw new Error("Address is required"); 
+        if (!customer.address) {
+            throw new Error('Address is required');
         }
     }
+
+    static from({
+        id,
+        name,
+        password,
+        email,
+        number,
+        address,
+    }: CustomerPrisma & { address: AddressPrisma }): Customer {
+        return new Customer({
+            id,
+            name,
+            password,
+            email,
+            number,
+            address: Address.from(address), // Assuming Address has its own `from` method
+        });
+    }
 }
-  

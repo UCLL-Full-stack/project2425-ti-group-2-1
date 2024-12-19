@@ -14,13 +14,15 @@ model Address {
     postalcode String
     customers  Customer[] 
     orders     Order[]
+
+    @@unique([housecode, street, postalcode])
 }
 
 model Customer {
     id         Int       @id @default(autoincrement())
     name       String
     password   String
-    email      String
+    email      String    @unique
     number     String
     orders     Order[]   
     addressId  Int

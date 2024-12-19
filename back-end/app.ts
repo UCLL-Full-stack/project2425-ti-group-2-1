@@ -6,6 +6,7 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { customerRouter } from './controller/customer.routes';
 import { productRouter } from './controller/product.routes';
+import { expressjwt } from 'express-jwt';
 
 const app = express();
 dotenv.config();
@@ -13,9 +14,6 @@ const port = process.env.APP_PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
-
-app.use('/customers', customerRouter);
-app.use('/product', productRouter);
 
 app.get('/status', (req, res) => {
     res.json({ message: 'Back-end is running...' });
@@ -39,3 +37,15 @@ const swaggerOptions = {
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.use(
+    expressjwt({
+        secret: process.env.JWT_SECRET || 'default_secret',
+        algorithms: ['HS256'],
+    }).unless({
+        path: ['/api-docs', '/customers/login', '/customers/register', '/product', '/status'],
+    })
+);
+
+app.use('/customers', customerRouter);
+app.use('/product', productRouter);

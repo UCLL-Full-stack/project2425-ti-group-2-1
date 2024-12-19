@@ -1,53 +1,82 @@
-import { Address } from "../model/Address";
-import { Customer } from "../model/Customer";
+import database from './database';
+import { Customer } from '../model/Customer';
 
-const addressYannick = new Address({
-    housecode : `25D`,
-    street : `Cornerstreet`,
-    postalcode : `2221`
-})
-
-const customers : Customer[] = [
-    new Customer({
-        customer_id: 1,
-        name : `Yannick`,
-        password : `password`,
-        email : `yannick@gmail.com`,
-        number : `04323232`,
-        address : addressYannick
-    })
-];
-
-const createCustomer = (customer: Customer): Customer => {
-    if (customers.includes(customer)) {
-        throw new Error('customer already exists');
-    }
-    customers.push(customer);
-    return customer;
-};
-
-const getCustomerById = ({ id }: { id: number }): Customer | null => {
+const createCustomer = async (customer: Customer): Promise<Customer> => {
     try {
-        return customers.find((customer) => customer.getCustomerID() === id) || null;
+        const customerPrisma = await database.customer.create({
+            data: {
+                name: customer.name,
+                email: customer.email,
+                password: customer.password,
+                number: customer.number,
+                address: {
+                    connect: { id: customer.address?.getAddressID() },
+                },
+            },
+            include: {
+                address: true,
+            },
+        });
+
+        return Customer.from(customerPrisma);
     } catch (error) {
         console.error(error);
         throw new Error('Database error. See server log for details.');
     }
-}
-
-const getCustomerByEmail = (email: string): Customer | undefined => {
-    return customers.find(customer => customer.email === email);
 };
 
-const getCustomerByPhone = (number: string): Customer | undefined => {
-    return customers.find(customer => customer.number === number);
+const getCustomerById = async ({ id }: { id: number }): Promise<Customer | null> => {
+    try {
+        const customerPrisma = await database.customer.findUnique({
+            where: { id },
+            include: {
+                address: true,
+            },
+        });
+
+        return customerPrisma ? Customer.from(customerPrisma) : null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
+const getCustomerByEmail = async (email: string): Promise<Customer | null> => {
+    try {
+        const customerPrisma = await database.customer.findUnique({
+            where: { email },
+            include: {
+                address: true,
+            },
+        });
+
+        return customerPrisma ? Customer.from(customerPrisma) : null;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
+const getAllCustomers = async (): Promise<Customer[]> => {
+    try {
+        const customerPrisma = await database.customer.findMany({
+            include: {
+                address: true,
+            },
+        });
+
+        return customerPrisma.map((customerPrisma) =>
+            Customer.from(customerPrisma)
+        );
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
 };
 
 export default {
     createCustomer,
     getCustomerById,
     getCustomerByEmail,
-    getCustomerByPhone,
+    getAllCustomers,
 };
-
-

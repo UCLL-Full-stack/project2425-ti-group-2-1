@@ -30,12 +30,12 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <Language />
-        {/*{isLoginView ? (
+        {isLoginView ? (
           <Login toggleView={toggleView} />
         ) : (
           <Register toggleView={toggleView} />
-        )}*/}
-        <Products/>
+        )}
+        <Products />
       </main>
     </>
   );
