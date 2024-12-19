@@ -54,6 +54,8 @@ const productRouter = express.Router();
  * @swagger
  * /products:
  *   get:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Get all products.
  *     responses:
  *       200:
