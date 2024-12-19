@@ -3,65 +3,72 @@ import { Customer } from "./Customer";
 import { Product } from "./Product";
 
 export class Order {
-    order_id?: number;
-    totalprice: number;
-    date: Date;
-    send: boolean;
-    address: Address;
-    customer: Customer;
-    products: Product[];
+  order_id?: number;
+  totalprice: number;
+  date: Date;
+  send: boolean;
+  address: Address;
+  customer: Customer;
+  products: { product: Product; quantity: number }[] | null; // Changed to store product and quantity
   
-    constructor(totalprice: number, date: Date, send: boolean, address: Address, customer: Customer, products: Product[]) {
-        this.totalprice = totalprice;
-        this.date = date;
-        this.send = send;
-        this.address = address;
-        this.customer = customer;
-        this.products = products;
-    }
+  constructor(
+    totalprice: number,
+    date: Date,
+    send: boolean,
+    address: Address,
+    customer: Customer,
+    products: { product: Product; quantity: number }[] | null = null // Default to null or empty array if no products
+  ) {
+    this.totalprice = totalprice;
+    this.date = date;
+    this.send = send;
+    this.address = address;
+    this.customer = customer;
+    this.products = products || []; // Use empty array if no products
+  }
 
-    getOrderID(): number | undefined {
-        return this.order_id;
-    }
+  getOrderID(): number | undefined {
+    return this.order_id;
+  }
 
-    getTotalPrice(): number {
-        return this.totalprice;
-    }
+  getTotalPrice(): number {
+    return this.totalprice;
+  }
 
-    setTotalPrice(value: number): void {
-        if (value >= 0) {
-            this.totalprice = value;
-        } else {
-            throw new Error("Total price cannot be negative.");
-        }
+  setTotalPrice(value: number): void {
+    if (value >= 0) {
+      this.totalprice = value;
+    } else {
+      throw new Error("Total price cannot be negative.");
     }
+  }
 
-    getDate(): Date {
-        return this.date;
-    }
+  getDate(): Date {
+    return this.date;
+  }
 
-    setDate(value: Date): void {
-        this.date = value;
-    }
+  setDate(value: Date): void {
+    this.date = value;
+  }
 
-    isSent(): boolean {
-        return this.send;
-    }
+  isSent(): boolean {
+    return this.send;
+  }
 
-    setSent(value: boolean): void {
-        this.send = value;
-    }
+  setSent(value: boolean): void {
+    this.send = value;
+  }
 
-    getAddressID(): Address {
-        return this.address;
-    }
+  getAddressID(): Address {
+    return this.address;
+  }
 
-    getCustomerID(): Customer {
-        return this.customer;
-    }
+  getCustomerID(): Customer {
+    return this.customer;
+  }
 
-    getProducts() : Product[] {
-        return this.products;
-    }
+  // Returns the list of products with their quantities
+  getProducts(): { product: Product; quantity: number }[] {
+    return this.products || []; // Return empty array if null
+  }
 }
-  

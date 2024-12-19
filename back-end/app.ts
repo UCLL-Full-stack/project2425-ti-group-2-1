@@ -7,6 +7,7 @@ import swaggerUi from 'swagger-ui-express';
 import { customerRouter } from './controller/customer.routes';
 import { productRouter } from './controller/product.routes';
 import { expressjwt } from 'express-jwt';
+import { orderRouter } from './controller/order.routes';
 
 const app = express();
 dotenv.config();
@@ -43,9 +44,10 @@ app.use(
         secret: process.env.JWT_SECRET || 'default_secret',
         algorithms: ['HS256'],
     }).unless({
-        path: ['/api-docs', '/customers/login', '/customers/register', '/product', '/status'],
+        path: ['/api-docs', '/customers/login', '/customers/register', '/product', '/status', '/order/orders'],
     })
 );
 
 app.use('/customers', customerRouter);
 app.use('/product', productRouter);
+app.use('/order', orderRouter);

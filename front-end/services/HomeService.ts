@@ -15,6 +15,6 @@ const handleGetProducts = async () => {
 
 const homeService = {
     handleGetProducts,
-  };
+};
 
 export default homeService;

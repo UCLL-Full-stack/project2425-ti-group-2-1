@@ -7,7 +7,7 @@ const createProduct = async () => {
     try {
         const product = await prisma.product.create({
             data: {
-                name: 'Wireless Bluetooth Headphones',
+                name: 'Bluetooth Headphones',
                 description: 'High-quality wireless Bluetooth headphones with noise cancellation.',
                 price: 99.99,
                 category: 'Electronics',

@@ -34,6 +34,12 @@
     margin-bottom: 30%;
 }
 
+.button {
+    padding: 1%;
+    margin-right: 80%;
+    margin-top: 5%;
+}
+
 .ordertitle {
     margin-top: 5%;
     margin-left: 35%;
@@ -78,6 +84,6 @@
 }
 
 .gridItem:hover {
-    padding: 20%;
+    padding: 10%;
     background-color: #d5d5d5;
 }

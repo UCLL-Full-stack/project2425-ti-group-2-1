@@ -27,7 +27,6 @@ async function handleLogin(
     const data: AuthenticationResponse = await response.json();
     console.log(data);
 
-    // Store token, name, and email in localStorage
     localStorage.setItem(
       "loggedInUser",
       JSON.stringify({
