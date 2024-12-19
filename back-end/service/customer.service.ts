@@ -6,6 +6,11 @@ import bcrypt from 'bcrypt';
 import { Address } from '../model/Address';
 import { generateJWTToken } from '../util/jwt';
 
+const isEmailTaken = async (email: string): Promise<boolean> => {
+    const existingCustomer = await customerDb.getCustomerByEmail(email);
+    return !!existingCustomer;
+};
+
 export const login = async (
     authRequest: AuthenticationRequest
 ): Promise<AuthenticationResponse> => {
@@ -44,6 +49,10 @@ const createCustomer = async (input: CustomerInput): Promise<Customer> => {
 
     if (!name || !password || !email || !number) {
         throw new Error('Name, password, email, and number are required.');
+    }
+
+    if (await isEmailTaken(email)) {
+        throw new Error('A customer with this email already exists.');
     }
 
     // Validate address input
