@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import addressService from '../service/address.service';  // Assuming this handles the address update
+import addressService from '../service/address.service'; // Assuming this handles the address update
 
 const addressRouter = express.Router();
 
@@ -7,6 +7,8 @@ const addressRouter = express.Router();
  * @swagger
  * /update-address:
  *   put:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Update the address of a customer based on email.
  *     description: This endpoint updates the address (street, housecode, postalcode) for a customer using their email.
  *     operationId: updateAddress
@@ -61,14 +63,16 @@ addressRouter.put('/update-address', async (req: Request, res: Response) => {
         }
 
         if (!street && !housecode && !postalcode) {
-            return res.status(400).json({ message: 'At least one address field (street, housecode, postalcode) is required.' });
+            return res.status(400).json({
+                message: 'At least one address field (street, housecode, postalcode) is required.',
+            });
         }
 
         const updatedAddress = await addressService.updateAddressService({
             email,
             street,
             housecode,
-            postalcode
+            postalcode,
         });
 
         return res.status(200).json({ message: 'Address updated successfully', updatedAddress });
