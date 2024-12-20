@@ -63,9 +63,29 @@ const getAllAddresses = async (): Promise<Address[]> => {
     }
 };
 
+const updateAddress = async (
+    id: number,
+    updatedFields: Partial<Address>
+): Promise<Address | null> => {
+    try {
+        const addressPrisma = await database.address.update({
+            where: { id },
+            data: {
+                ...updatedFields, 
+            },
+        });
+
+        return Address.from(addressPrisma);
+    } catch (error) {
+        console.error(error);
+        throw new Error('Database error. See server log for details.');
+    }
+};
+
 export default {
     createAddress,
     getAddressById,
     getAddressByDetails,
     getAllAddresses,
+    updateAddress,
 };
