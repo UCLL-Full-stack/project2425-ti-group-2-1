@@ -9,6 +9,7 @@ import { productRouter } from './controller/product.routes';
 import { expressjwt } from 'express-jwt';
 import helmet from 'helmet';
 import { orderRouter } from './controller/order.routes';
+import { addressRouter } from './controller/address.routes';
 
 const app = express();
 dotenv.config();
@@ -56,10 +57,11 @@ app.use(
         secret: process.env.JWT_SECRET || 'default_secret',
         algorithms: ['HS256'],
     }).unless({
-        path: ['/api-docs', '/customers/login', '/customers/register', '/product', '/status'],
+        path: ['/api-docs', '/customers/login', '/customers/register', '/product', '/status', '/address/update-address'],
     })
 );
 
 app.use('/customers', customerRouter);
 app.use('/product', productRouter);
 app.use('/order', orderRouter);
+app.use('/address', addressRouter);

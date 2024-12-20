@@ -1,6 +1,6 @@
 import { useState } from "react";
-import styles from "../styles/Register.module.css";
-import registerService from "../services/RegisterService";
+import styles from "@/styles/Register.module.css";
+import registerService from "@/services/RegisterService";
 import { useTranslation } from "next-i18next";
 
 interface RegisterProps {

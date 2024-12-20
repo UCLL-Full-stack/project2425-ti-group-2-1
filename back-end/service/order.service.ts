@@ -29,7 +29,6 @@ const createOrder = async (input: CreateOrderInput) => {
 
         const addressId = user.address.id;
 
-        // Count the occurrences of each productId
         const productQuantities: { [key: number]: number } = {};
 
         products.forEach((product) => {
@@ -40,9 +39,8 @@ const createOrder = async (input: CreateOrderInput) => {
             }
         });
 
-        // Prepare the order products with quantity
         const orderProducts = Object.keys(productQuantities).map((productId) => ({
-            orderId: 0, // We'll assign the correct orderId later
+            orderId: 0,
             productId: parseInt(productId),
             quantity: productQuantities[parseInt(productId)],
         }));

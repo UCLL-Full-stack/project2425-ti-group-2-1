@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import HomeService from "@/services/HomeService";
 import OrderService from "@/services/OrderService";
-import styles from "../styles/Product.module.css";
+import styles from "@/styles/Product.module.css";
 import { useTranslation } from "next-i18next";
 
 interface Product {
