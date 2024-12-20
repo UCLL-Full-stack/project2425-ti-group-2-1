@@ -35,10 +35,13 @@ type ProductInput = {
     stock : number;    
 }
 
+type Role = 'admin' | 'klant' | 'banned';
+
 export{
     CustomerInput,
     AddressInput,
     AuthenticationRequest,
     AuthenticationResponse,
     ProductInput,
+    Role,
 }

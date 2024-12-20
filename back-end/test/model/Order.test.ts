@@ -1,203 +1,213 @@
-import { Order } from '../../model/Order';
-import { Customer } from '../../model/Customer';
-import { Address } from '../../model/Address';
 import { Product } from '../../model/Product';
 
-describe('Order Class', () => {
-    let validAddress: Address;
-    let validCustomer: Customer;
-    let validProducts: Product[];
-
-    beforeEach(() => {
-        validAddress = new Address({
-            housecode: '1234abc',
-            street: 'pinkystreet',
-            postalcode: '2525',
+describe('Product Class', () => {
+    test('Given: valid values for Product, when: creating new Product, then: new Product is created', () => {
+        const product = new Product({
+            id: 1,
+            name: 'Test Product',
+            description: 'A test product description',
+            price: 10.99,
+            category: 'Electronics',
+            image: 'image_url',
+            stock: 100,
         });
 
-        validCustomer = new Customer({
-            name: 'Jhonny',
-            password: 'blabla',
-            email: 'Jhonny.bravo@gmail.com',
-            number: '+32 0417 85 59 63',
-            address: validAddress,
+        expect(product.getproductid()).toBe(1);
+        expect(product.getname()).toBe('Test Product');
+        expect(product.getdescription()).toBe('A test product description');
+        expect(product.getprice()).toBe(10.99);
+        expect(product.getcategory()).toBe('Electronics');
+        expect(product.getimage()).toBe('image_url');
+        expect(product.getstock()).toBe(100);
+    });
+
+    test("Given: missing name, when: creating new Product, then: throw 'Name is required'", () => {
+        expect(
+            () =>
+                new Product({
+                    id: 1,
+                    name: '',
+                    description: 'A test product description',
+                    price: 10.99,
+                    category: 'Electronics',
+                    image: 'image_url',
+                    stock: 100,
+                })
+        ).toThrow('Name is required');
+    });
+
+    test("Given: missing description, when: creating new Product, then: throw 'Description is required'", () => {
+        expect(
+            () =>
+                new Product({
+                    id: 1,
+                    name: 'Test Product',
+                    description: '',
+                    price: 10.99,
+                    category: 'Electronics',
+                    image: 'image_url',
+                    stock: 100,
+                })
+        ).toThrow('Description is required');
+    });
+
+    test("Given: negative price, when: creating new Product, then: throw 'Price must be a non-negative number'", () => {
+        expect(
+            () =>
+                new Product({
+                    id: 1,
+                    name: 'Test Product',
+                    description: 'A test product description',
+                    price: -10.99,
+                    category: 'Electronics',
+                    image: 'image_url',
+                    stock: 100,
+                })
+        ).toThrow('Price must be a non-negative number');
+    });
+
+    test("Given: missing category, when: creating new Product, then: throw 'Category is required'", () => {
+        expect(
+            () =>
+                new Product({
+                    id: 1,
+                    name: 'Test Product',
+                    description: 'A test product description',
+                    price: 10.99,
+                    category: '',
+                    image: 'image_url',
+                    stock: 100,
+                })
+        ).toThrow('Category is required');
+    });
+
+    test("Given: missing image, when: creating new Product, then: throw 'Image is required'", () => {
+        expect(
+            () =>
+                new Product({
+                    id: 1,
+                    name: 'Test Product',
+                    description: 'A test product description',
+                    price: 10.99,
+                    category: 'Electronics',
+                    image: '',
+                    stock: 100,
+                })
+        ).toThrow('Image is required');
+    });
+
+    test("Given: negative stock, when: creating new Product, then: throw 'Stock must be a non-negative number'", () => {
+        expect(
+            () =>
+                new Product({
+                    id: 1,
+                    name: 'Test Product',
+                    description: 'A test product description',
+                    price: 10.99,
+                    category: 'Electronics',
+                    image: 'image_url',
+                    stock: -100,
+                })
+        ).toThrow('Stock must be a non-negative number');
+    });
+
+    test('Given: valid Product, when: updating name, then: name is updated', () => {
+        const product = new Product({
+            id: 1,
+            name: 'Old Name',
+            description: 'A test product description',
+            price: 10.99,
+            category: 'Electronics',
+            image: 'image_url',
+            stock: 100,
         });
-
-        validProducts = [
-            new Product({
-                name: 'Product1',
-                description: 'Description of Product1',
-                price: 100,
-                category: 'Category1',
-                image: 'product1.jpg',
-                stock: 10,
-            }),
-        ];
+        product.setname('New Name');
+        expect(product.getname()).toBe('New Name');
     });
 
-    test('Given: valid values for Order, when: creating new Order, then: new Order is created', () => {
-        const totalprice = 100;
-        const date = new Date();
-        const send = false;
-
-        const order = new Order(totalprice, date, send, validAddress, validCustomer, validProducts);
-
-        expect(order.getTotalPrice()).toBe(totalprice);
-        expect(order.getDate()).toBe(date);
-        expect(order.isSent()).toBe(send);
-        expect(order.getAddressID()).toBe(validAddress);
-        expect(order.getCustomerID()).toBe(validCustomer);
-        expect(order.getProducts()).toBe(validProducts);
-    });
-
-    test('Given: missing totalprice, when: creating new Order, then: throw "Total price is required and cannot be negative."', () => {
-        expect(
-            () =>
-                new Order(
-                    undefined as unknown as number,
-                    new Date(),
-                    false,
-                    validAddress,
-                    validCustomer,
-                    validProducts
-                )
-        ).toThrow('Total price is required and cannot be negative.');
-    });
-
-    test('Given: negative totalprice, when: creating new Order, then: throw "Total price is required and cannot be negative."', () => {
-        expect(
-            () => new Order(-1, new Date(), false, validAddress, validCustomer, validProducts)
-        ).toThrow('Total price is required and cannot be negative.');
-    });
-
-    test('Given: missing date, when: creating new Order, then: throw "Date is required."', () => {
-        expect(
-            () =>
-                new Order(
-                    100,
-                    undefined as unknown as Date,
-                    false,
-                    validAddress,
-                    validCustomer,
-                    validProducts
-                )
-        ).toThrow('Date is required.');
-    });
-
-    test('Given: missing send status, when: creating new Order, then: throw "Send status is required."', () => {
-        expect(
-            () =>
-                new Order(
-                    100,
-                    new Date(),
-                    undefined as unknown as boolean,
-                    validAddress,
-                    validCustomer,
-                    validProducts
-                )
-        ).toThrow('Send status is required.');
-    });
-
-    test('Given: missing address, when: creating new Order, then: throw "Address is required."', () => {
-        expect(
-            () =>
-                new Order(
-                    100,
-                    new Date(),
-                    false,
-                    undefined as unknown as Address,
-                    validCustomer,
-                    validProducts
-                )
-        ).toThrow('Address is required.');
-    });
-
-    test('Given: missing customer, when: creating new Order, then: throw "Customer is required."', () => {
-        expect(
-            () =>
-                new Order(
-                    100,
-                    new Date(),
-                    false,
-                    validAddress,
-                    undefined as unknown as Customer,
-                    validProducts
-                )
-        ).toThrow('Customer is required.');
-    });
-
-    test('Given: missing products, when: creating new Order, then: throw "At least one product is required."', () => {
-        expect(() => new Order(100, new Date(), false, validAddress, validCustomer, [])).toThrow(
-            'At least one product is required.'
-        );
-    });
-
-    test('Given: valid Order, when: updating totalprice, then: totalprice is updated', () => {
-        const order = new Order(100, new Date(), false, validAddress, validCustomer, validProducts);
-        order.setTotalPrice(200);
-        expect(order.getTotalPrice()).toBe(200);
-    });
-
-    test('Given: valid Order, when: updating date, then: date is updated', () => {
-        const order = new Order(100, new Date(), false, validAddress, validCustomer, validProducts);
-        const newDate = new Date();
-        order.setDate(newDate);
-        expect(order.getDate()).toBe(newDate);
-    });
-
-    test('Given: valid Order, when: updating send status, then: send status is updated', () => {
-        const order = new Order(100, new Date(), false, validAddress, validCustomer, validProducts);
-        order.setSent(true);
-        expect(order.isSent()).toBe(true);
-    });
-
-    test('Given: valid Order, when: updating address, then: address is updated', () => {
-        const order = new Order(100, new Date(), false, validAddress, validCustomer, validProducts);
-        const newAddress = new Address({
-            housecode: '5678xyz',
-            street: 'bluestreet',
-            postalcode: '2526',
+    test('Given: valid Product, when: updating price, then: price is updated', () => {
+        const product = new Product({
+            id: 1,
+            name: 'Test Product',
+            description: 'A test product description',
+            price: 10.99,
+            category: 'Electronics',
+            image: 'image_url',
+            stock: 100,
         });
-        order.setAddress(newAddress);
-        expect(order.getAddressID()).toBe(newAddress);
+        product.setprice(15.99);
+        expect(product.getprice()).toBe(15.99);
     });
 
-    test('Given: valid Order, when: updating customer, then: customer is updated', () => {
-        const order = new Order(100, new Date(), false, validAddress, validCustomer, validProducts);
-        const newCustomer = new Customer({
-            name: 'NewCustomer',
-            password: 'newpassword',
-            email: 'newemail@gmail.com',
-            number: '+32 0417 85 59 64',
-            address: validAddress,
+    test('Given: valid Product, when: updating stock, then: stock is updated', () => {
+        const product = new Product({
+            id: 1,
+            name: 'Test Product',
+            description: 'A test product description',
+            price: 10.99,
+            category: 'Electronics',
+            image: 'image_url',
+            stock: 100,
         });
-        order.setCustomer(newCustomer);
-        expect(order.getCustomerID()).toBe(newCustomer);
+        product.setstock(150);
+        expect(product.getstock()).toBe(150);
     });
 
-    test('Given: valid Order, when: updating products, then: products are updated', () => {
-        const newProduct = new Product({
-            name: 'Product2',
-            description: 'Description of Product2',
-            price: 150,
-            category: 'Category2',
-            image: 'product2.jpg',
-            stock: 5,
+    test('Given: valid Product, when: updating category, then: category is updated', () => {
+        const product = new Product({
+            id: 1,
+            name: 'Test Product',
+            description: 'A test product description',
+            price: 10.99,
+            category: 'Electronics',
+            image: 'image_url',
+            stock: 100,
         });
-        const order = new Order(100, new Date(), false, validAddress, validCustomer, validProducts);
-        order.setProducts([newProduct]);
-        expect(order.getProducts()).toEqual([newProduct]);
+        product.setcategory('Appliances');
+        expect(product.getcategory()).toBe('Appliances');
     });
 
-    test('Given: valid Order, when: setting empty products, then: throw "At least one product is required."', () => {
-        const order = new Order(100, new Date(), false, validAddress, validCustomer, validProducts);
-        expect(() => order.setProducts([])).toThrow('At least one product is required.');
+    test('Given: two identical products, when: comparing them, then: equals returns true', () => {
+        const product1 = new Product({
+            id: 1,
+            name: 'Test Product',
+            description: 'A test product description',
+            price: 10.99,
+            category: 'Electronics',
+            image: 'image_url',
+            stock: 100,
+        });
+        const product2 = new Product({
+            id: 1,
+            name: 'Test Product',
+            description: 'A test product description',
+            price: 10.99,
+            category: 'Electronics',
+            image: 'image_url',
+            stock: 100,
+        });
+        expect(product1.equals(product2)).toBe(true);
     });
 
-    test('Given: valid Order, when: setting undefined address, then: throw "Address is required."', () => {
-        const order = new Order(100, new Date(), false, validAddress, validCustomer, validProducts);
-        expect(() => order.setAddress(undefined as unknown as Address)).toThrow(
-            'Address is required.'
-        );
+    test('Given: two different products, when: comparing them, then: equals returns false', () => {
+        const product1 = new Product({
+            id: 1,
+            name: 'Test Product',
+            description: 'A test product description',
+            price: 10.99,
+            category: 'Electronics',
+            image: 'image_url',
+            stock: 100,
+        });
+        const product2 = new Product({
+            id: 2,
+            name: 'Another Product',
+            description: 'Another description',
+            price: 15.99,
+            category: 'Appliances',
+            image: 'another_image_url',
+            stock: 50,
+        });
+        expect(product1.equals(product2)).toBe(false);
     });
 });

@@ -5,7 +5,6 @@ const getAllProducts = async (): Promise<Product[]> => {
     try {
         return await productDB.getAllProducts();
     } catch (error) {
-        console.error("Error fetching products:", error);
         throw new Error("Failed to retrieve products.");
     }
 };

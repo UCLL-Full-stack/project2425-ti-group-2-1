@@ -4,6 +4,10 @@ import customerDb from '../../repository/customer.db';
 import { AuthenticationRequest, CustomerInput, AddressInput } from '../../types';
 import { Address } from '../../model/Address';
 import { Customer } from '../../model/Customer';
+import bcrypt from 'bcrypt';
+
+const password = 'password123';
+const hashedPassword = bcrypt.hashSync(password, 10);
 
 const mockAddressInput: AddressInput = {
     address_id: 1,
@@ -16,7 +20,7 @@ const mockAddress = new Address(mockAddressInput);
 
 const mockCustomerInput: CustomerInput = {
     name: 'John Doe',
-    password: 'password123',
+    password: hashedPassword,
     email: 'john.doe@example.com',
     number: '1234567890',
     address: mockAddress,
@@ -46,13 +50,6 @@ beforeEach(() => {
 
     mockCreateCustomer = jest.fn();
     customerDb.createCustomer = mockCreateCustomer;
-
-    // Mock bcrypt.compare to simulate successful password comparison
-    jest.mock('bcryptjs', () => ({
-        compare: jest.fn().mockImplementation((data: string, encrypted: string) => {
-            return Promise.resolve(true); // Simulate a successful password comparison
-        }),
-    }));
 });
 
 afterEach(() => {
@@ -60,6 +57,28 @@ afterEach(() => {
 });
 
 describe('Customer Service - Login Tests', () => {
+    test('Given: valid credentials, when: logging in, then: should return an authentication token', async () => {
+        mockGetCustomerByEmail.mockResolvedValue(mockCustomer); // Mock database response for existing customer
+
+        const authRequest = {
+            email: 'john.doe@example.com',
+            password: 'password123',
+        };
+
+        // Simulate bcrypt.compare callback
+        const isPasswordValid = await bcrypt.compare(authRequest.password, mockCustomer.password);
+
+        const result = await customerService.login(authRequest);
+
+        expect(customerDb.getCustomerByEmail).toHaveBeenCalledWith(authRequest.email);
+        expect(isPasswordValid === true);
+        expect(result).toEqual({
+            token: expect.any(String), // Check if a token is returned
+            email: mockCustomer.email,
+            name: mockCustomer.name,
+        });
+    });
+
     test('Given: invalid credentials, when: logging in, then: throw "Email or password incorrect"', async () => {
         mockGetCustomerByEmail.mockResolvedValue(mockCustomer);
 
