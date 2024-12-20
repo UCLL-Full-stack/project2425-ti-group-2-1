@@ -27,5 +27,9 @@
     "signInButton": "Inloggen",
     "dontHaveAccount": "Heb je geen account?",
     "signUp": "Aanmelden"
+  },
+  "product": {
+    "pay": "Afrekenen",
+    "cart": "Winkelkarretje is leeg."
   }
 }

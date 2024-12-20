@@ -34,18 +34,19 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <h1 className={styles.title}>{t("app.title")}</h1>
-        <hr className={styles.line} />
-        <Language />
+        <header className={styles.header}>
+          <h1 className={styles.title}>{t("app.title")}</h1>
+          <hr className={styles.line} />
+          <div className={styles.language}>
+            <Language/>
+          </div>
+        </header>
         {isLoginView ? (
           <Login toggleView={toggleView} />
         ) : (
           <Register toggleView={toggleView} />
         )}
-        <button onClick={toggleProducts} className={styles.button}>
-          {showProducts ? t("app.hide_products") : t("app.show_products")}
-        </button>
-        {showProducts && <Products />}
+        <Products />
       </main>
     </>
   );

@@ -10,12 +10,22 @@ const createProduct = async () => {
                 name: 'Bluetooth Headphones',
                 description: 'High-quality wireless Bluetooth headphones with noise cancellation.',
                 price: 99.99,
-                category: 'Electronics',
+                category: 'electronics',
                 image: 'https://praktijkdewaterlely.nl/wp-content/uploads/2020/02/Alcohol-scaled.jpg',
                 stock: 150,
             },
         });
-        console.log('Product created:', product);
+        const product2 = await prisma.product.create({
+            data: {
+                name: 'vodka',
+                description: 'High-quality wireless Bluetooth headphones with noise cancellation.',
+                price: 99.99,
+                category: 'alchohol',
+                image: 'https://praktijkdewaterlely.nl/wp-content/uploads/2020/02/Alcohol-scaled.jpg',
+                stock: 150,
+            },
+        });
+        console.log('Product created:', product, product2);
     } catch (error) {
         console.error('Error creating product:', error);
     } finally {

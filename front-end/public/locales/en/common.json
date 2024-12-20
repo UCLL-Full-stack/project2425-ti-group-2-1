@@ -28,5 +28,9 @@
     "signInButton": "Sign in",
     "dontHaveAccount": "Don't have an account?",
     "signUp": "Sign Up"
+  },
+  "product": {
+    "pay": "pay",
+    "cart": "Your cart is empty."
   }
 }

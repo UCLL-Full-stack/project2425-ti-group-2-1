@@ -1,14 +1,19 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
 .loginContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 20px auto; 
-    border: 2px solid #ccc;
-    padding: 20px;
-    border-radius: 8px;
-    width: 300px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+  border: 2px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+}
   
   .inputGroup {
     margin-bottom: 20px;
@@ -20,13 +25,13 @@
   }
 
   .success {
-    color: green; /* Change to your preferred success color */
+    color: green; 
     margin-top: 10px;
     margin-bottom: 10px;
   }
 
   .error {
-    color: red; /* Change to your preferred error color */
+    color: red; 
     margin-top: 10px;
     margin-bottom: 10px;
   }

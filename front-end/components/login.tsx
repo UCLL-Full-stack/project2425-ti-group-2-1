@@ -14,6 +14,7 @@ const Login: React.FC<LoginProps> = ({ toggleView }) => {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,10 +26,23 @@ const Login: React.FC<LoginProps> = ({ toggleView }) => {
     try {
       const response = await loginService.handleLogin(credentials);
       setSuccessMessage("Login successful! Welcome back.");
+      setIsLoggedIn(true);
+
+      setTimeout(() => {
+        setSuccessMessage(null);
+      }, 3000);
     } catch (error) {
       setError("Login failed. Please check your credentials and try again.");
     }
   };
+
+  if (isLoggedIn) {
+    return (
+      <div className={styles.success}>
+        <p>{successMessage}</p>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.loginContainer}>

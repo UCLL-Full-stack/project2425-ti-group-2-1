@@ -1,3 +1,14 @@
+.afrekenen{
+    position: absolute;
+    bottom: 1%;
+    background-color: #f4f4f4;
+}
+
+.listItem{
+    left: 2%;
+    position: relative;
+}
+
 .gridContainer {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
@@ -25,14 +36,39 @@
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); 
     padding: 16px;   
     box-sizing: border-box;
+    z-index: 1000;
 }
 
 .line {
     border: 2px solid black;
     width: 200%;
-    margin-left: -4%;
+    margin-left: -3.75%;
     margin-bottom: 30%;
 }
+
+.verticalline {
+    border-left: 4px solid black;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+.searchContainer {
+    position: fixed;
+    text-align: center;
+    top: 4.5%;
+    right: 31%;
+    z-index: 1000;
+}
+  
+.searchInput {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}  
 
 .button {
     padding: 1%;
