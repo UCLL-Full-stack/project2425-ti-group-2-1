@@ -1,5 +1,6 @@
 import { Address } from './Address';
 import { Customer as CustomerPrisma, Address as AddressPrisma } from '@prisma/client';
+import { Role } from '../types';
 
 export class Customer {
     id?: number;
@@ -8,6 +9,7 @@ export class Customer {
     email: string;
     number: string;
     address: Address;
+    role: Role;
 
     constructor(customer: {
         id?: number;
@@ -16,6 +18,7 @@ export class Customer {
         email: string;
         number: string;
         address: Address;
+        role: Role;
     }) {
         this.validate(customer);
 
@@ -25,6 +28,7 @@ export class Customer {
         this.email = customer.email;
         this.number = customer.number;
         this.address = customer.address;
+        this.role = customer.role;
     }
 
     getCustomerID(): number | undefined {
@@ -86,12 +90,24 @@ export class Customer {
         this.address = value;
     }
 
+    getRole(): Role {
+        return this.role;
+    }
+
+    setRole(value: Role): void {
+        if (!value) {
+            throw new Error('Role is required');
+        }
+        this.role = value;
+    }
+
     validate(customer: {
         name: string;
         password: string;
         email: string;
         number: string;
         address: Address;
+        role: Role;
     }) {
         if (!customer.name) {
             throw new Error('Name is required');
@@ -112,6 +128,10 @@ export class Customer {
         if (!customer.address) {
             throw new Error('Address is required');
         }
+
+        if (!customer.role) {
+            throw new Error('Role is required');
+        }
     }
 
     static from({
@@ -121,14 +141,20 @@ export class Customer {
         email,
         number,
         address,
-    }: CustomerPrisma & { address: AddressPrisma }): Customer {
+        role,
+    }: CustomerPrisma & { address: AddressPrisma; role: string }): Customer {
+        if (!['admin', 'klant', 'banned'].includes(role)) {
+            throw new Error(`Invalid role: ${role}`);
+        }
+
         return new Customer({
             id,
             name,
             password,
             email,
             number,
-            address: Address.from(address), // Assuming Address has its own `from` method
+            address: Address.from(address),
+            role: role as Role
         });
     }
 }

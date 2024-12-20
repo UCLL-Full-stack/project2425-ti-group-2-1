@@ -5,7 +5,8 @@ const prisma = new PrismaClient();
 
 const createProduct = async () => {
     try {
-        const product = await prisma.product.create({
+        // Create products
+        const product1 = await prisma.product.create({
             data: {
                 name: 'Bluetooth Headphones',
                 description: 'High-quality wireless Bluetooth headphones with noise cancellation.',
@@ -15,106 +16,141 @@ const createProduct = async () => {
                 stock: 150,
             },
         });
+
         const product2 = await prisma.product.create({
             data: {
-                name: 'vodka',
-                description: 'High-quality wireless Bluetooth headphones with noise cancellation.',
-                price: 99.99,
-                category: 'alchohol',
+                name: 'Vodka',
+                description: 'Premium vodka with a smooth taste.',
+                price: 39.99,
+                category: 'alcohol',
                 image: 'https://praktijkdewaterlely.nl/wp-content/uploads/2020/02/Alcohol-scaled.jpg',
                 stock: 150,
             },
         });
-        console.log('Product created:', product, product2);
+
+        console.log('Products created:', product1, product2);
+
+        // Return created products to use in the main function
+        return [product1, product2];
     } catch (error) {
-        console.error('Error creating product:', error);
-    } finally {
-        await prisma.$disconnect();
+        console.error('Error creating products:', error);
+    }
+};
+
+const createCustomers = async () => {
+    try {
+        // Create customers and associate them with products
+        const customer1 = await prisma.customer.create({
+            data: {
+                name: 'john',
+                email: 'john.doe@gmail.com',
+                password: bcrypt.hashSync('password', 10),
+                number: '+32 0476 55 44 44',
+                address: {
+                    create: {
+                        housecode: '32D',
+                        street: 'shpekkystreet',
+                        postalcode: '2525',
+                    },
+                },
+            },
+        });
+
+        const customer2 = await prisma.customer.create({
+            data: {
+                name: 'alice',
+                email: 'alice.smith@gmail.com',
+                password: bcrypt.hashSync('password123', 10),
+                number: '+32 0476 77 88 99',
+                address: {
+                    create: {
+                        housecode: '12B',
+                        street: 'queenstreet',
+                        postalcode: '2526',
+                    },
+                },
+            },
+        });
+
+        const customer3 = await prisma.customer.create({
+            data: {
+                name: 'bob',
+                email: 'bob.johnson@gmail.com',
+                password: bcrypt.hashSync('securepassword', 10),
+                number: '+32 0476 99 00 11',
+                role: 'banned',
+                address: {
+                    create: {
+                        housecode: '45A',
+                        street: 'kingstreet',
+                        postalcode: '2527',
+                    },
+                },
+            },
+        });
+
+        const admin = await prisma.customer.create({
+            data: {
+                name: 'admin',
+                email: 'admin@example.com',  // Ensure this is a unique email
+                password: bcrypt.hashSync('adminpassword', 10),
+                number: '+32 0476 00 22 33',
+                role: 'admin',  // Assigning the role 'admin'
+                address: {
+                    create: {
+                        housecode: '1A',
+                        street: 'adminstreet',
+                        postalcode: '2528',
+                    },
+                },
+            },
+        });
+
+        console.log(
+            'Customers created and associated with products:',
+            customer1,
+            customer2,
+            customer3,
+            admin
+        );
+    } catch (error) {
+        console.error('Error creating customers:', error);
     }
 };
 
 async function main() {
-    // Hash passwords before storing
-    const hashPassword = (password: string) => bcrypt.hashSync(password, 10);
+    try {
+        // Delete all existing order products first (to avoid foreign key violations)
+        await prisma.orderProduct.deleteMany();
+        console.log('All order products deleted.');
 
-    await prisma.customer.deleteMany();
-    await prisma.address.deleteMany();
+        // Then delete all orders
+        await prisma.order.deleteMany();
+        console.log('All orders deleted.');
 
-    // Create customers with hashed passwords and unique emails
-    const customer1 = await prisma.customer.create({
-        data: {
-            name: 'john',
-            email: 'john.doe@gmail.com',
-            password: hashPassword('password'),
-            number: '+32 0476 55 44 44',
-            address: {
-                create: {
-                    housecode: '32D',
-                    street: 'shpekkystreet',
-                    postalcode: '2525',
-                },
-            },
-        },
-    });
+        // Then delete all customers
+        await prisma.customer.deleteMany();
+        console.log('All customers deleted.');
 
-    const customer2 = await prisma.customer.create({
-        data: {
-            name: 'alice',
-            email: 'alice.smith@gmail.com',
-            password: hashPassword('password123'),
-            number: '+32 0476 77 88 99',
-            address: {
-                create: {
-                    housecode: '12B',
-                    street: 'queenstreet',
-                    postalcode: '2526',
-                },
-            },
-        },
-    });
+        // Then delete all addresses
+        await prisma.address.deleteMany();
+        console.log('All addresses deleted.');
 
-    const customer3 = await prisma.customer.create({
-        data: {
-            name: 'bob',
-            email: 'bob.johnson@gmail.com',
-            password: hashPassword('securepassword'),
-            number: '+32 0476 99 00 11',
-            address: {
-                create: {
-                    housecode: '45A',
-                    street: 'kingstreet',
-                    postalcode: '2527',
-                },
-            },
-        },
-    });
+        // Then delete products
+        await prisma.product.deleteMany();
+        console.log('All products deleted.');
 
-    const admin = await prisma.customer.create({
-        data: {
-            name: 'admin',
-            email: 'admin@admin.com',
-            password: hashPassword('adminpassword'),
-            number: '+32 0476 00 22 33',
-            address: {
-                create: {
-                    housecode: '1A',
-                    street: 'adminstreet',
-                    postalcode: '2528',
-                },
-            },
-        },
-    });
+        // Create products
+        const products = await createProduct();
 
-    console.log('customers created:', { customer1, customer2, customer3, admin });
-}
-
-main()
-    .catch((e) => {
+        // Create customers
+        await createCustomers();
+    } catch (e) {
         console.error(e);
         process.exit(1);
-    })
-    .finally(async () => {
+    } finally {
         await prisma.$disconnect();
-    });
+    }
+}
 
-createProduct();
+main();

@@ -33,6 +33,7 @@ async function handleLogin(
         token: data.token,
         name: data.name,
         email: data.email,
+        role: data.role,
       })
     );
 
@@ -41,7 +42,7 @@ async function handleLogin(
     console.error("Error in login service:", error);
     throw error;
   }
-};
+}
 
 const loginService = {
   handleLogin,

@@ -25,6 +25,7 @@ model Customer {
     email      String    @unique
     number     String
     orders     Order[]   
+    role       String    @default("klant")
     addressId  Int
     address    Address   @relation(fields: [addressId], references: [id])
 }

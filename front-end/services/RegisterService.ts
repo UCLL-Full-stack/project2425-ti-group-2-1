@@ -1,6 +1,4 @@
 import {
-  AuthenticationRequest,
-  AuthenticationResponse,
   UserData,
 } from "../types";
 

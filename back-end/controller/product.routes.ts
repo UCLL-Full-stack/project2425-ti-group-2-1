@@ -106,7 +106,7 @@ const productRouter = express.Router();
 
 /**
  * @swagger
- * /products:
+ * /product:
  *   get:
  *     security:
  *       - bearerAuth: []
@@ -140,4 +140,51 @@ productRouter.get('/', async (req: Request, res: Response, next: NextFunction) =
         next(error);
     }
 });
+/**
+ * @swagger
+ * /product/{id}:
+ *   delete:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Delete a product by ID.
+ *     description: This endpoint deletes a product from the system by its unique identifier. It does not cascade to related entities.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The unique identifier of the product to delete.
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Successfully deleted the product.
+ *       400:
+ *         description: Bad request, invalid product ID.
+ *       401:
+ *         description: Unauthorized. The request lacks valid authentication credentials.
+ *       404:
+ *         description: Product not found.
+ *       500:
+ *         description: Internal server error.
+ */
+productRouter.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
+    const productId = Number(req.params.id);
+
+    if (isNaN(productId)) {
+        return res.status(400).json({ message: 'Invalid product ID' });
+    }
+
+    try {
+        const deletedProduct = await ProductService.deleteProduct(productId);
+
+        if (!deletedProduct) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        return res.status(200).json({ message: 'Product successfully deleted' });
+    } catch (error) {
+        next(error);
+    }
+});
+
 export { productRouter };

@@ -7,6 +7,7 @@ export type AuthenticationResponse = {
   token: string;
   email: string;
   name: string;
+  role: Role;
 };
 
 export type UserData = {
@@ -14,6 +15,7 @@ export type UserData = {
   password: string;
   email: string;
   number: string;
+  role?: Role;
   address: {
     housecode: string;
     street: string;
@@ -30,3 +32,5 @@ export type Product = {
   category: string;
   stock: number;
 };
+
+export type Role = "admin" | "klant" | "banned";
