@@ -16,20 +16,31 @@ const mockAddressInput: AddressInput = {
     postalcode: '12345',
 };
 
-const mockAddress = new Address(mockAddressInput);
+const mockAddress = new Address({
+    id: mockAddressInput.address_id,
+    housecode: mockAddressInput.housecode,
+    street: mockAddressInput.street,
+    postalcode: mockAddressInput.postalcode,
+});
 
+// Ensure that 'mockCustomerInput' is passing the Address object
 const mockCustomerInput: CustomerInput = {
     name: 'John Doe',
     password: hashedPassword,
     email: 'john.doe@example.com',
     number: '1234567890',
-    address: mockAddress,
+    address: mockAddress, // Ensure the address is correctly passed
+    role: 'klant', // Role is explicitly passed, or defaults to 'klant'
 };
 
 const mockCustomer = new Customer({
-    ...mockCustomerInput,
     id: 1,
+    name: mockCustomerInput.name,
+    password: mockCustomerInput.password,
+    email: mockCustomerInput.email,
+    number: mockCustomerInput.number,
     address: mockAddress,
+    role: mockCustomerInput.role!, // role is now guaranteed to be 'klant' if not specified
 });
 
 let mockGetCustomerByEmail: jest.Mock;
@@ -76,6 +87,7 @@ describe('Customer Service - Login Tests', () => {
             token: expect.any(String), // Check if a token is returned
             email: mockCustomer.email,
             name: mockCustomer.name,
+            role: mockCustomer.role, // Ensure role is part of the response
         });
     });
 
@@ -125,6 +137,7 @@ describe('Customer Service - Create Customer Tests', () => {
                 email: mockCustomerInput.email,
                 number: mockCustomerInput.number,
                 address: mockAddress,
+                role: mockCustomerInput.role, // Ensure role is passed correctly
             })
         );
         expect(result).toEqual(mockCustomer);

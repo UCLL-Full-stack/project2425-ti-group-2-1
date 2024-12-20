@@ -4,6 +4,7 @@ type CustomerInput = {
     password: string;
     email: string;
     number: string;
+    role?: Role;
     address: AddressInput;
 };
 
