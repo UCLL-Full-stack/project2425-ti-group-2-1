@@ -21,9 +21,10 @@ const OverViewItems: React.FC = () => {
   const [cart, setCart] = useState<Product[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
-  const [userEmail, setUserEmail] = useState<string | null>(null); 
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [totalPrice, setTotalPrice] = useState<number>(0); 
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [userRole, setUserRole] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -37,8 +38,9 @@ const OverViewItems: React.FC = () => {
 
     const loggedInUser = localStorage.getItem("loggedInUser");
     if (loggedInUser) {
-      const { email } = JSON.parse(loggedInUser);
+      const { email, role } = JSON.parse(loggedInUser); // Assuming role is stored in localStorage
       setUserEmail(email);
+      setUserRole(role == "admin");
     } else {
       setError("You must be logged in to place an order.");
     }
@@ -62,7 +64,10 @@ const OverViewItems: React.FC = () => {
       setMessage("");
       setError("");
       const updatedCart = [...prevCart, product];
-      const newTotalPrice = updatedCart.reduce((sum, item) => sum + item.price, 0);
+      const newTotalPrice = updatedCart.reduce(
+        (sum, item) => sum + item.price,
+        0
+      );
       setTotalPrice(newTotalPrice);
       return updatedCart;
     });
@@ -83,10 +88,20 @@ const OverViewItems: React.FC = () => {
     try {
       const response = await OrderService.handleCreateOrder(orderData);
       setMessage("Order successfully placed!");
-      setCart([]); 
+      setCart([]);
       setTotalPrice(0);
     } catch (err) {
       setError("Failed to place the order.");
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    try {
+      await HomeService.handleDeleteProduct(id);
+      setMessage("Product deleted successfully!");
+      setProducts(products.filter((product) => product.id !== id)); // Remove deleted product from list
+    } catch (error) {
+      setError("Failed to delete the product.");
     }
   };
 
@@ -153,6 +168,15 @@ const OverViewItems: React.FC = () => {
               >
                 Add to Cart
               </button>
+
+              {userRole === true && (
+                <button
+                  className={styles.button}
+                  onClick={() => handleDelete(product.id)}
+                >
+                  Delete product
+                </button>
+              )}
             </div>
           ))
         ) : (

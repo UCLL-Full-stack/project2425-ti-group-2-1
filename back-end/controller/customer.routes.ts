@@ -1,11 +1,6 @@
 /**
  * @swagger
  * components:
- *   securitySchemes:
- *     bearerAuth:
- *       type: http
- *       scheme: bearer
- *       bearerFormat: JWT
  *   schemas:
  *     Customer:
  *       type: object
@@ -99,6 +94,7 @@ const customerRouter = express.Router();
  * @swagger
  * /login:
  *   post:
+ *     security: []
  *     summary: Login a customer.
  *     description: This endpoint allows an existing customer to log in using their email and password. A JWT token will be returned upon successful login.
  *     requestBody:
@@ -140,6 +136,7 @@ customerRouter.post('/login', async (req: Request, res: Response, next: NextFunc
  * @swagger
  * /register:
  *   post:
+ *     security: []
  *     summary: Register a new customer.
  *     description: This endpoint allows a new customer to register by providing their details such as name, email, phone number, and address.
  *     requestBody:
