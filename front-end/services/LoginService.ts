@@ -37,6 +37,15 @@ async function handleLogin(
       })
     );
 
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    if (loggedInUser) {
+      const { role } = JSON.parse(loggedInUser);
+      if (role === "banned") {
+        localStorage.removeItem("loggedInUser");
+        alert("You have been banned.");
+      }
+    }
+
     return data;
   } catch (error) {
     console.error("Error in login service:", error);
