@@ -79,6 +79,7 @@ async function main() {
             email: 'bob.johnson@gmail.com',
             password: hashPassword('securepassword'),
             number: '+32 0476 99 00 11',
+            role: 'banned',
             address: {
                 create: {
                     housecode: '45A',
@@ -95,6 +96,7 @@ async function main() {
             email: 'admin@admin.com',
             password: hashPassword('adminpassword'),
             number: '+32 0476 00 22 33',
+            role: 'admin',
             address: {
                 create: {
                     housecode: '1A',

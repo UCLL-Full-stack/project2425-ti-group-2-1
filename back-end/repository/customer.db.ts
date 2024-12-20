@@ -9,6 +9,7 @@ const createCustomer = async (customer: Customer): Promise<Customer> => {
                 email: customer.email,
                 password: customer.password,
                 number: customer.number,
+                role: customer.role,
                 address: {
                     connect: { id: customer.address?.getAddressID() },
                 },
@@ -24,6 +25,8 @@ const createCustomer = async (customer: Customer): Promise<Customer> => {
         throw new Error('Database error. See server log for details.');
     }
 };
+
+
 
 const getCustomerById = async ({ id }: { id: number }): Promise<Customer | null> => {
     try {
